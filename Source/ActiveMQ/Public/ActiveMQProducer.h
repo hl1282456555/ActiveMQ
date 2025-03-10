@@ -40,6 +40,9 @@ public:
 	FORCEINLINE virtual const TSharedPtr<cms::MessageProducer>& GetInnerProducer() const;
 
 	UFUNCTION(BlueprintCallable, Category = "ActiveMQ | Producer")
+	virtual void Close();
+
+	UFUNCTION(BlueprintCallable, Category = "ActiveMQ | Producer")
 	virtual void Send(UActiveMQMessage* Message);
 	
 	UFUNCTION(BlueprintCallable, Category = "ActiveMQ | Producer", meta = (DisplayName = "Send (With Params)"))

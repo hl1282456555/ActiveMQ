@@ -14,6 +14,20 @@ THIRD_PARTY_INCLUDES_END
 void UActiveMQProducer::BeginDestroy()
 {
 	UObject::BeginDestroy();
+
+	if (InnerProducer)
+	{
+		try
+		{
+			InnerProducer->close();
+		}
+		catch (cms::CMSException&)
+		{
+			// ignore exception for automatic close
+		}
+
+		InnerProducer.Reset();
+	}
 }
 
 void UActiveMQProducer::SetInnerProducer(const TSharedPtr<cms::MessageProducer>& NewProducer)
@@ -24,6 +38,18 @@ void UActiveMQProducer::SetInnerProducer(const TSharedPtr<cms::MessageProducer>&
 const TSharedPtr<cms::MessageProducer>& UActiveMQProducer::GetInnerProducer() const
 {
 	return InnerProducer;
+}
+
+void UActiveMQProducer::Close()
+{
+	if (InnerProducer)
+	{
+		try
+		{
+			InnerProducer->close();
+		}
+		ACTIVEMQ_EXCEPTION_DELIVER_END(GetName(), EActiveMQExceptionOwnerType::EOT_Producer)
+	}
 }
 
 void UActiveMQProducer::Send(UActiveMQMessage* Message)

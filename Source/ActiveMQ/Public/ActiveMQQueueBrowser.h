@@ -22,6 +22,8 @@ class ACTIVEMQ_API UActiveMQQueueBrowser : public UObject
 {
 	GENERATED_BODY()
 public:
+	virtual void BeginDestroy() override;
+
 	virtual void SetInnerQueueBrowser(const TSharedPtr<cms::QueueBrowser>& NewQueueBrowser);
 	FORCEINLINE virtual const TSharedPtr<cms::QueueBrowser>& GetInnerQueueBrowser() const;
 

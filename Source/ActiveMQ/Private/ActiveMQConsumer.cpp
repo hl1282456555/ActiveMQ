@@ -12,6 +12,20 @@ THIRD_PARTY_INCLUDES_END
 void UActiveMQConsumer::BeginDestroy()
 {
 	UObject::BeginDestroy();
+
+	if (InnerConsumer)
+	{
+		try
+		{
+			InnerConsumer->close();
+		}
+		catch (cms::CMSException&)
+		{
+			// ignore exception for automatic close
+		}
+
+		InnerConsumer.Reset();
+	}
 }
 
 void UActiveMQConsumer::SetInnerConsumer(const TSharedPtr<cms::MessageConsumer>& NewConsumer)
@@ -97,6 +111,18 @@ FString UActiveMQConsumer::GetMessageSelector() const
 	return TEXT("");
 }
 
+void UActiveMQConsumer::Start()
+{
+	if (InnerConsumer)
+	{
+		try
+		{
+			InnerConsumer->start();
+		}
+		ACTIVEMQ_EXCEPTION_DELIVER_END(GetName(), EActiveMQExceptionOwnerType::EOT_Consumer)
+	}
+}
+
 void UActiveMQConsumer::Close()
 {
 	if (InnerConsumer)
@@ -104,6 +130,18 @@ void UActiveMQConsumer::Close()
 		try
 		{
 			InnerConsumer->close();
+		}
+		ACTIVEMQ_EXCEPTION_DELIVER_END(GetName(), EActiveMQExceptionOwnerType::EOT_Consumer)
+	}
+}
+
+void UActiveMQConsumer::Stop()
+{
+	if (InnerConsumer)
+	{
+		try
+		{
+			InnerConsumer->stop();
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(GetName(), EActiveMQExceptionOwnerType::EOT_Consumer)
 	}

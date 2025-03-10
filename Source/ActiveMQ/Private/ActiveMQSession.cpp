@@ -32,6 +32,20 @@ UActiveMQSession::~UActiveMQSession()
 void UActiveMQSession::BeginDestroy()
 {
 	UObject::BeginDestroy();
+
+	if (InnerSession)
+	{
+		try
+		{
+			InnerSession->close();
+		}
+		catch (cms::CMSException&)
+		{
+			// ignore exception for automatic close
+		}
+
+		InnerSession.Reset();
+	}
 }
 
 void UActiveMQSession::SetInnerSession(const TSharedPtr<cms::Session>& InSession)

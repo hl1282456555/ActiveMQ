@@ -44,7 +44,13 @@ public:
 	FString GetMessageSelector() const;
 
 	UFUNCTION(BlueprintCallable, Category = "ActiveMQ | Consumer")
+	void Start();
+
+	UFUNCTION(BlueprintCallable, Category = "ActiveMQ | Consumer")
 	void Close();
+
+	UFUNCTION(BlueprintCallable, Category = "ActiveMQ | Consumer")
+	void Stop();
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, BlueprintAssignable, Category = "ActiveMQ | Consumer")

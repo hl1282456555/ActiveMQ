@@ -12,6 +12,23 @@ THIRD_PARTY_INCLUDES_START
 #include "cms/Queue.h"
 THIRD_PARTY_INCLUDES_END
 
+void UActiveMQQueueBrowser::BeginDestroy()
+{
+	Super::BeginDestroy();
+
+	if (InnerQueueBrowser)
+	{
+		try
+		{
+			InnerQueueBrowser->close();
+		}
+		catch (cms::CMSException&)
+		{
+			// ignore exception for automatic close
+		}
+	}
+}
+
 void UActiveMQQueueBrowser::SetInnerQueueBrowser(const TSharedPtr<cms::QueueBrowser>& NewQueueBrowser)
 {
 	InnerQueueBrowser = NewQueueBrowser;

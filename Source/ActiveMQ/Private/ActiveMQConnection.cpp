@@ -30,6 +30,20 @@ UActiveMQConnection::~UActiveMQConnection()
 void UActiveMQConnection::BeginDestroy()
 {
 	UObject::BeginDestroy();
+
+	if (InnerConnection)
+	{
+		try
+		{
+			InnerConnection->close();
+		}
+		catch (cms::CMSException&)
+		{
+			// ignore exception for automatic close
+		}
+
+		InnerConnection.Reset();
+	}
 }
 
 void UActiveMQConnection::SetInnerConnection(const TSharedPtr<cms::Connection>& NewConnection)

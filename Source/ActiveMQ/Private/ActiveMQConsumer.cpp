@@ -130,6 +130,8 @@ void UActiveMQConsumer::Close()
 		try
 		{
 			InnerConsumer->close();
+
+			OnClosed.Broadcast(this);
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(GetName(), EActiveMQExceptionOwnerType::EOT_Consumer)
 	}

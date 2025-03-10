@@ -50,7 +50,7 @@ namespace cms
 	class Connection;
 }
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActiveMQConnectionCloseDelegate, UActiveMQConnection*, Connection);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActiveMQConnectionClosedDelegate, UActiveMQConnection*, Connection);
 
 /**
  * 
@@ -67,18 +67,6 @@ public:
 
 	virtual void SetInnerConnection(const TSharedPtr<cms::Connection>& NewConnection);
 	FORCEINLINE virtual const TSharedPtr<cms::Connection>& GetInnerConnection() const;
-	
-	UFUNCTION(BlueprintPure, Category = "ActiveMQ | Connection")
-	FString GetUsername() const;
-
-	UFUNCTION(BlueprintCallable, Category = "ActiveMQ | Connection")
-	void SetUsername(const FString& InUsername);
-
-	UFUNCTION(BlueprintPure, Category = "ActiveMQ | Connection")
-	FString GetPassword() const;
-
-	UFUNCTION(BlueprintCallable, Category = "ActiveMQ | Connection")
-	void SetPassword(const FString& InPassword);
 
 	UFUNCTION(BlueprintPure, Category = "ActiveMQ | Connection")
 	FActiveMQConnectionMetaData GetMetaData() const;
@@ -101,18 +89,22 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "ActiveMQ | Connection")
 	void SetClientID(const FString& InClientID);
 
+	UFUNCTION(BlueprintPure, Category = "ActiveMQ | Connection")
+	TArray<UActiveMQSession*> GetAllSessions() const;
+
 protected:
 	virtual void onException(const cms::CMSException& Exception) override;
 
+	UFUNCTION()
+	void HandleSessionCloseEvent(UActiveMQSession* Session);
+
 public:
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Setter, BlueprintSetter="SetUsername", Getter, BlueprintGetter="GetUsername", Category = "ActiveMQ | Connection")
-	FString Username;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Setter, BlueprintSetter="SetPassword", Getter, BlueprintGetter="GetPassword", Category = "ActiveMQ | Connection")
-	FString Password;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, BlueprintAssignable, Category = "ActiveMQ | Connection")
-	FOnActiveMQConnectionCloseDelegate OnConnectionClosed;
+	FOnActiveMQConnectionClosedDelegate OnClosed;
+
+protected:
+	UPROPERTY()
+	TArray<UActiveMQSession*> Sessions;
 	
 private:
 	TSharedPtr<cms::Connection> InnerConnection;

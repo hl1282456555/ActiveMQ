@@ -87,7 +87,10 @@ void UActiveMQSession::Close()
 		try
 		{
 			InnerSession->close();
-			OnSessionClose.Broadcast();
+			OnClosed.Broadcast(this);
+
+			Consumers.Empty();
+			Producers.Empty();
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(SessionID, EActiveMQExceptionOwnerType::EOT_Session)
 	}
@@ -154,6 +157,7 @@ UActiveMQConsumer* UActiveMQSession::CreateConsumer(UActiveMQDestination* Destin
 			{
 				NewConsumer = NewObject<UActiveMQConsumer>(this);
 				NewConsumer->SetInnerConsumer(MakeShareable(InnerConsumer));
+				NewConsumer->OnClosed.AddDynamic(this, &ThisClass::HandleConsumerCloseEvent);
 			}
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(SessionID, EActiveMQExceptionOwnerType::EOT_Session)
@@ -177,6 +181,7 @@ UActiveMQConsumer* UActiveMQSession::CreateDurableConsumer(UActiveMQTopic* Topic
 				{
 					NewConsumer = NewObject<UActiveMQConsumer>(this);
 					NewConsumer->SetInnerConsumer(MakeShareable(InnerConsumer));
+					NewConsumer->OnClosed.AddDynamic(this, &ThisClass::HandleConsumerCloseEvent);
 				}	
 			}
 		}
@@ -204,6 +209,7 @@ UActiveMQProducer* UActiveMQSession::CreateProducer(UActiveMQDestination* Destin
 			{
 				NewProducer = NewObject<UActiveMQProducer>(this);
 				NewProducer->SetInnerProducer(MakeShareable(InnerProducer));
+				NewProducer->OnClosed.AddDynamic(this, &ThisClass::HandleProducerCloseEvent);
 			}
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(SessionID, EActiveMQExceptionOwnerType::EOT_Session)
@@ -464,4 +470,14 @@ void UActiveMQSession::Unsubscribe(const FString& Name)
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(SessionID, EActiveMQExceptionOwnerType::EOT_Session)
 	}
+}
+
+void UActiveMQSession::HandleConsumerCloseEvent(UActiveMQConsumer* Consumer)
+{
+	Consumers.Remove(Consumer);
+}
+
+void UActiveMQSession::HandleProducerCloseEvent(UActiveMQProducer* Producer)
+{
+	Producers.Remove(Producer);
 }

@@ -44,6 +44,8 @@ void UActiveMQConnection::BeginDestroy()
 
 		InnerConnection.Reset();
 	}
+
+	Sessions.Empty();
 }
 
 void UActiveMQConnection::SetInnerConnection(const TSharedPtr<cms::Connection>& NewConnection)
@@ -58,26 +60,6 @@ void UActiveMQConnection::SetInnerConnection(const TSharedPtr<cms::Connection>& 
 const TSharedPtr<cms::Connection>& UActiveMQConnection::GetInnerConnection() const
 {
 	return InnerConnection;
-}
-
-FString UActiveMQConnection::GetUsername() const
-{
-	return Username;
-}
-
-void UActiveMQConnection::SetUsername(const FString& InUsername)
-{
-	Username = InUsername;
-}
-
-FString UActiveMQConnection::GetPassword() const
-{
-	return Password;
-}
-
-void UActiveMQConnection::SetPassword(const FString& InPassword)
-{
-	Password = InPassword;
 }
 
 FActiveMQConnectionMetaData UActiveMQConnection::GetMetaData() const
@@ -141,7 +123,9 @@ void UActiveMQConnection::Close()
 	{
 		InnerConnection->close();
 
-		OnConnectionClosed.Broadcast(this);
+		OnClosed.Broadcast(this);
+
+		Sessions.Empty();
 	}
 	ACTIVEMQ_EXCEPTION_DELIVER_END(GetClientID(), EActiveMQExceptionOwnerType::EOT_Connection)
 }
@@ -177,6 +161,9 @@ UActiveMQSession* UActiveMQConnection::CreateSession(EActiveMQSessionAcknowledge
 
 		UActiveMQSession* NewSession = NewObject<UActiveMQSession>(this);
 		NewSession->SetInnerSession(InnerSession);
+		NewSession->OnClosed.AddDynamic(this, &ThisClass::HandleSessionCloseEvent);
+
+		Sessions.Add(NewSession);
 
 		return NewSession;
 	}
@@ -215,10 +202,20 @@ void UActiveMQConnection::SetClientID(const FString& InClientID)
 	ACTIVEMQ_EXCEPTION_DELIVER_END(GetClientID(), EActiveMQExceptionOwnerType::EOT_Connection)
 }
 
+TArray<UActiveMQSession*> UActiveMQConnection::GetAllSessions() const
+{
+	return Sessions;
+}
+
 void UActiveMQConnection::onException(const cms::CMSException& Exception)
 {
 	AsyncTask(ENamedThreads::Type::GameThread, [Exception, this]()
 	{
 		DeliverException(this, GetClientID(), EActiveMQExceptionOwnerType::EOT_Connection, Exception);
 	});
+}
+
+void UActiveMQConnection::HandleSessionCloseEvent(UActiveMQSession* Session)
+{
+	Sessions.Remove(Session);
 }

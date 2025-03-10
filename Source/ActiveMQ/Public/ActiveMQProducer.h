@@ -25,6 +25,7 @@ enum class EActiveMQDeliveryMode : uint8
 };
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnActiveMQProducerSendAsyncCompleteDelegate, UActiveMQProducer*, Producer, bool, bSuccess);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActiveMQProducerClosedDelegate, UActiveMQProducer*, Producer);
 
 /**
  * 
@@ -103,6 +104,9 @@ protected:
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, BlueprintAssignable, Category = "ActiveMQ | Producer")
 	FOnActiveMQProducerSendAsyncCompleteDelegate OnSendAsyncComplete;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, BlueprintAssignable, Category = "ActiveMQ | Producer")
+	FOnActiveMQProducerClosedDelegate OnClosed;
 	
 private:
 	TSharedPtr<cms::MessageProducer> InnerProducer;

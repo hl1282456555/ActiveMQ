@@ -47,10 +47,19 @@ public:
 	UActiveMQMessage* ConvertCMSMessageToUEMessage(UObject* Outer, cms::Message* InMessage);
 
 	UFUNCTION(BlueprintPure, Category = "ActiveMQSubsystem")
-	virtual UActiveMQConnection* CreateConnection(const FString& BrokerURI, const FString& Username, const FString& Password, const FString& ClientId = TEXT(""));
+	UActiveMQConnection* CreateConnection(const FString& BrokerURI, const FString& Username, const FString& Password, const FString& ClientId = TEXT(""));
+
+	UFUNCTION(BlueprintPure, Category = "ActiveMQSubsystem")
+	UActiveMQConnection* FindConnection(const FString& ClientId);
+
+	UFUNCTION(BlueprintCallable, Category = "ActiveMQSubsystem")
+	void RemoveConnection(UActiveMQConnection* InConnection);
+
+	UFUNCTION(BlueprintCallable, Category = "ActiveMQSubsystem")
+	void RemoveConnectionByClientId(const FString& ClientId);
 	
 	UFUNCTION(BlueprintCallable, Category = "ActiveMQSubsystem")
-	virtual void DispatchExceptionMessage(const FString Owner, EActiveMQExceptionOwnerType OwnerType, const FString& Message);
+	void DispatchExceptionMessage(const FString Owner, EActiveMQExceptionOwnerType OwnerType, const FString& Message);
 	
 protected:
 	virtual bool DoesSupportWorldType(const EWorldType::Type WorldType) const override;
@@ -58,4 +67,9 @@ protected:
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ActiveMQSubsystem")
 	FOnActiveMQThrowExceptionDelegate OnActiveMQThrowException;
+
+protected:
+	// Key: Broker URI, Value: Connection
+	UPROPERTY()
+	TArray<UActiveMQConnection*> Connections;
 };

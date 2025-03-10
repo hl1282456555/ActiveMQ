@@ -28,6 +28,8 @@ THIRD_PARTY_INCLUDES_END
 void UActiveMQSubsystem::Deinitialize()
 {
 	Super::Deinitialize();
+
+	Connections.Empty();
 }
 
 void UActiveMQSubsystem::OnWorldBeginPlay(UWorld& InWorld)
@@ -79,6 +81,8 @@ UActiveMQConnection* UActiveMQSubsystem::CreateConnection(const FString& BrokerU
 		{
 			NewConnection = NewObject<UActiveMQConnection>(this);
 			NewConnection->SetInnerConnection(MakeShareable(InnerConnection));
+
+			Connections.Add(BrokerURI, NewConnection);
 		}
 	}
 	catch (cms::CMSException& Exception)
@@ -87,6 +91,23 @@ UActiveMQConnection* UActiveMQSubsystem::CreateConnection(const FString& BrokerU
 	}
 
 	return NewConnection;
+}
+
+UActiveMQConnection* UActiveMQSubsystem::FindConnection(const FString& ClientId)
+{	
+	UActiveMQConnection** Connection = Connections.FindByPredicate([&](UActiveMQConnection* InConnection) { return InConnection->GetClientID() == ClientId; });
+
+	return Connection == nullptr ? nullptr : *Connection;
+}
+
+void UActiveMQSubsystem::RemoveConnection(UActiveMQConnection* InConnection)
+{
+	Connections.Remove(InConnection);
+}
+
+void UActiveMQSubsystem::RemoveConnectionByClientId(const FString& ClientId)
+{
+	Connections.RemoveAll([&](UActiveMQConnection* InConnection) { return InConnection->GetClientID() == ClientId; });
 }
 
 bool UActiveMQSubsystem::DoesSupportWorldType(const EWorldType::Type WorldType) const

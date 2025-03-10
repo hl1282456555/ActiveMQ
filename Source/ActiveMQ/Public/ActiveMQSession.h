@@ -68,7 +68,7 @@ class UActiveMQStreamMessage;
 class UActiveMQTextMessage;
 class UActiveMQMapMessage;
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnActiveMQSessionCloseDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActiveMQSessionClosedDelegate, UActiveMQSession*, Session);
 
 /**
  * 
@@ -158,13 +158,27 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "ActiveMQ | Session")
 	void Unsubscribe(const FString& Name);
 
+protected:
+	UFUNCTION()
+	void HandleConsumerCloseEvent(UActiveMQConsumer* Consumer);
+	
+	UFUNCTION()
+	void HandleProducerCloseEvent(UActiveMQProducer* Producer);
+
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Setter, BlueprintSetter="SetSessionID", Getter, BlueprintGetter="GetSessionID", Category = "ActiveMQ | Session")
 	FString SessionID;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "ActiveMQ | Session")
-	FOnActiveMQSessionCloseDelegate OnSessionClose;
+	FOnActiveMQSessionClosedDelegate OnClosed;
 	
+protected:
+	UPROPERTY()
+	TArray<UActiveMQConsumer*> Consumers;
+
+	UPROPERTY()
+	TArray<UActiveMQProducer*> Producers;
+
 private:
 	TSharedPtr<cms::Session> InnerSession;
 };

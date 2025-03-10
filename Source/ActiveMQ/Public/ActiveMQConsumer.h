@@ -17,6 +17,7 @@ namespace cms
 class UActiveMQMessage;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnActiveMQConsumerReceivedMessageDeleagte, UActiveMQConsumer*, Consumer, UActiveMQMessage*, Message);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActiveMQConsumerClosedDelegate, UActiveMQConsumer*, Consumer);
 
 /**
  * 
@@ -55,6 +56,9 @@ public:
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, BlueprintAssignable, Category = "ActiveMQ | Consumer")
 	FOnActiveMQConsumerReceivedMessageDeleagte OnReceivedMessage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, BlueprintAssignable, Category = "ActiveMQ | Consumer")
+	FOnActiveMQConsumerClosedDelegate OnClosed;
 	
 protected:
 	virtual void onMessage(const cms::Message* InMessage) override;

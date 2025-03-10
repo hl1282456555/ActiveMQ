@@ -1,0 +1,23 @@
+﻿{
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "1.0",
+	"FriendlyName": "ActiveMQ",
+	"Description": "ActiveMQ producer and consumer.",
+	"Category": "Messaging",
+	"CreatedBy": "OtakuLuo",
+	"CreatedByURL": "",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"CanContainContent": false,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": false,
+	"Installed": false,
+	"Modules": [
+		{
+			"Name": "ActiveMQ",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}

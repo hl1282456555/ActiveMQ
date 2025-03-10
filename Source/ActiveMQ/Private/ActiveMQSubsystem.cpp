@@ -82,7 +82,7 @@ UActiveMQConnection* UActiveMQSubsystem::CreateConnection(const FString& BrokerU
 			NewConnection = NewObject<UActiveMQConnection>(this);
 			NewConnection->SetInnerConnection(MakeShareable(InnerConnection));
 
-			Connections.Add(BrokerURI, NewConnection);
+			Connections.Add(NewConnection);
 		}
 	}
 	catch (cms::CMSException& Exception)

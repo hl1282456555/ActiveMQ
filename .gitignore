@@ -74,7 +74,7 @@ Plugins/*/Intermediate/*
 DerivedDataCache/*
 
 # Don't ignore thirdparty libraries
-!ThirdPrty**/*.lib
-!ThirdPrty**/*.dll
-!ThirdPrty**/*.exp
-!ThirdPrty**/*.pdb
+!ThirdParty**/*.lib
+!ThirdParty**/*.dll
+!ThirdParty**/*.exp
+!ThirdParty**/*.pdb

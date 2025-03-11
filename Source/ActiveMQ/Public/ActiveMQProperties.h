@@ -23,7 +23,7 @@ public:
 	virtual ~UActiveMQProperties() override;
 
 	virtual void SetInnerProperties(const TSharedPtr<cms::CMSProperties>& NewProperties);
-	FORCEINLINE virtual const TSharedPtr<cms::CMSProperties>& GetInnerProperties() const;
+	virtual const TSharedPtr<cms::CMSProperties>& GetInnerProperties() const;
 
 	UFUNCTION(BlueprintPure, Category = "ActiveMQ | Properties")
 	int32 GetSize() const;

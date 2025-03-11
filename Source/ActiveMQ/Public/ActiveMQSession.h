@@ -84,7 +84,7 @@ public:
 	virtual void BeginDestroy() override;
 
 	virtual void SetInnerSession(const TSharedPtr<cms::Session>& InSession);
-	FORCEINLINE virtual const TSharedPtr<cms::Session>& GetInnerSession() const;
+	virtual const TSharedPtr<cms::Session>& GetInnerSession() const;
 	
 	UFUNCTION(BlueprintPure, Category = "ActiveMQ | Session")
 	FString GetSessionID() const;

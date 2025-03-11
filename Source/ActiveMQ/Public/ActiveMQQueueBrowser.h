@@ -25,7 +25,7 @@ public:
 	virtual void BeginDestroy() override;
 
 	virtual void SetInnerQueueBrowser(const TSharedPtr<cms::QueueBrowser>& NewQueueBrowser);
-	FORCEINLINE virtual const TSharedPtr<cms::QueueBrowser>& GetInnerQueueBrowser() const;
+	virtual const TSharedPtr<cms::QueueBrowser>& GetInnerQueueBrowser() const;
 
 	UFUNCTION(BlueprintCallable, Category = "ActiveMQ | QueueBrowser")
 	virtual void Close();

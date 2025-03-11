@@ -36,7 +36,7 @@ public:
 	virtual void BeginDestroy() override;
 
 	virtual void SetInnerDestination(const TSharedPtr<cms::Destination>& NewDestination);
-	FORCEINLINE virtual const TSharedPtr<cms::Destination>& GetInnerDestination() const;
+	virtual const TSharedPtr<cms::Destination>& GetInnerDestination() const;
 
 	UFUNCTION(BlueprintPure, Category = "ActiveMQ | Destination")
 	virtual EActiveMQDestinationType GetDestinationType() const;

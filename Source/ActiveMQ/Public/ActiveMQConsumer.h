@@ -30,7 +30,7 @@ public:
 	virtual void BeginDestroy() override;
 
 	virtual void SetInnerConsumer(const TSharedPtr<cms::MessageConsumer>& NewConsumer);
-	FORCEINLINE virtual const TSharedPtr<cms::MessageConsumer>& GetInnerConsumer() const;
+	virtual const TSharedPtr<cms::MessageConsumer>& GetInnerConsumer() const;
 
 	UFUNCTION(BlueprintPure, Category = "ActiveMQ | Consumer")
 	UActiveMQMessage* Receive();

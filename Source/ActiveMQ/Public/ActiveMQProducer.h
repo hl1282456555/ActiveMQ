@@ -38,7 +38,7 @@ public:
 	virtual void BeginDestroy() override;
 
 	virtual void SetInnerProducer(const TSharedPtr<cms::MessageProducer>& NewProducer);
-	FORCEINLINE virtual const TSharedPtr<cms::MessageProducer>& GetInnerProducer() const;
+	virtual const TSharedPtr<cms::MessageProducer>& GetInnerProducer() const;
 
 	UFUNCTION(BlueprintCallable, Category = "ActiveMQ | Producer")
 	virtual void Close();

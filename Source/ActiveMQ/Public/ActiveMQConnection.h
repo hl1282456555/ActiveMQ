@@ -66,7 +66,7 @@ public:
 	virtual void BeginDestroy() override;
 
 	virtual void SetInnerConnection(const TSharedPtr<cms::Connection>& NewConnection);
-	FORCEINLINE virtual const TSharedPtr<cms::Connection>& GetInnerConnection() const;
+	virtual const TSharedPtr<cms::Connection>& GetInnerConnection() const;
 
 	UFUNCTION(BlueprintPure, Category = "ActiveMQ | Connection")
 	FActiveMQConnectionMetaData GetMetaData() const;

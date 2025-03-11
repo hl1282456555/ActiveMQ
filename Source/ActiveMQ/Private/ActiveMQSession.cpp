@@ -252,6 +252,8 @@ UActiveMQQueue* UActiveMQSession::CreateQueue(const FString& QueueName)
 			{
 				NewQueue = NewObject<UActiveMQQueue>(this);
 				NewQueue->SetInnerDestination(MakeShareable(InnerQueue));
+
+				Destinations.Add(NewQueue);
 			}
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(SessionID, EActiveMQExceptionOwnerType::EOT_Session)
@@ -271,6 +273,8 @@ UActiveMQTopic* UActiveMQSession::CreateTopic(const FString& TopicName)
 			{
 				NewTopic = NewObject<UActiveMQTopic>(this);
 				NewTopic->SetInnerDestination(MakeShareable(InnerTopic));
+
+				Destinations.Add(NewTopic);
 			}
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(SessionID, EActiveMQExceptionOwnerType::EOT_Session)
@@ -290,6 +294,8 @@ UActiveMQTemporaryQueue* UActiveMQSession::CreateTemporaryQueue()
 			{
 				NewQueue = NewObject<UActiveMQTemporaryQueue>(this);
 				NewQueue->SetInnerDestination(MakeShareable(InnerQueue));
+
+				Destinations.Add(NewQueue);
 			}
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(SessionID, EActiveMQExceptionOwnerType::EOT_Session)
@@ -309,12 +315,24 @@ UActiveMQTemporaryTopic* UActiveMQSession::CreateTemporaryTopic()
 			{
 				NewTopic = NewObject<UActiveMQTemporaryTopic>(this);
 				NewTopic->SetInnerDestination(MakeShareable(InnerTopic));
+
+				Destinations.Add(NewTopic);
 			}
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(SessionID, EActiveMQExceptionOwnerType::EOT_Session)
 	}
 
 	return NewTopic;
+}
+
+void UActiveMQSession::RemoveDestination(UActiveMQDestination* Destination)
+{
+	if (Destination == nullptr)
+	{
+		return;
+	}
+
+	Destinations.Remove(Destination);
 }
 
 UActiveMQMessage* UActiveMQSession::CreateMessage()

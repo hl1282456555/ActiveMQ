@@ -134,6 +134,9 @@ public:
 	UFUNCTION(BlueprintPure, Category = "ActiveMQ | Session")
 	UActiveMQTemporaryTopic* CreateTemporaryTopic();
 
+	UFUNCTION(BlueprintCallable, Category = "ActiveMQ | Session")
+	void RemoveDestination(UActiveMQDestination* Destination);
+
 	UFUNCTION(BlueprintPure, Category = "ActiveMQ | Session")
 	UActiveMQMessage* CreateMessage();
 
@@ -178,6 +181,9 @@ protected:
 
 	UPROPERTY()
 	TArray<UActiveMQProducer*> Producers;
+
+	UPROPERTY()
+	TArray<UActiveMQDestination*> Destinations;
 
 private:
 	TSharedPtr<cms::Session> InnerSession;

@@ -4,9 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
-THIRD_PARTY_INCLUDES_START
-#include "cms/MessageListener.h"
-THIRD_PARTY_INCLUDES_END
 #include "ActiveMQConsumer.generated.h"
 
 namespace cms
@@ -15,6 +12,7 @@ namespace cms
 }
 
 class UActiveMQMessage;
+class FActiveMQMessageListener;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnActiveMQConsumerReceivedMessageDeleagte, UActiveMQConsumer*, Consumer, UActiveMQMessage*, Message);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActiveMQConsumerClosedDelegate, UActiveMQConsumer*, Consumer);
@@ -23,7 +21,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActiveMQConsumerClosedDelegate, U
  * 
  */
 UCLASS(BlueprintType)
-class ACTIVEMQ_API UActiveMQConsumer : public UObject, public cms::MessageListener
+class ACTIVEMQ_API UActiveMQConsumer : public UObject
 {
 	GENERATED_BODY()
 public:
@@ -59,10 +57,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, BlueprintAssignable, Category = "ActiveMQ | Consumer")
 	FOnActiveMQConsumerClosedDelegate OnClosed;
-	
-protected:
-	virtual void onMessage(const cms::Message* InMessage) override;
 
 private:
 	TSharedPtr<cms::MessageConsumer> InnerConsumer;
+
+	TSharedPtr<FActiveMQMessageListener> MessageListener;
 };

@@ -19,9 +19,6 @@ class ACTIVEMQ_API UActiveMQProperties : public UObject
 {
 	GENERATED_BODY()
 public:
-	UActiveMQProperties();
-	virtual ~UActiveMQProperties() override;
-
 	virtual void SetInnerProperties(const TSharedPtr<cms::CMSProperties>& NewProperties);
 	virtual const TSharedPtr<cms::CMSProperties>& GetInnerProperties() const;
 

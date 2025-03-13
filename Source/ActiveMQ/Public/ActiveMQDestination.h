@@ -30,9 +30,6 @@ class ACTIVEMQ_API UActiveMQDestination : public UObject
 {
 	GENERATED_BODY()
 public:
-	UActiveMQDestination();
-	virtual ~UActiveMQDestination() override;
-
 	virtual void BeginDestroy() override;
 
 	virtual void SetInnerDestination(const TSharedPtr<cms::Destination>& NewDestination);

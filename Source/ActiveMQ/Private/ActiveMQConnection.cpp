@@ -7,6 +7,7 @@
 
 #include "ActiveMQExceptionHelper.h"
 #include "ActiveMQSubsystem.h"
+#include "Utils/ActiveMQExceptionListener.h"
 
 DECLARE_LOG_CATEGORY_CLASS(LogActiveMQConnection, Log, All);
 
@@ -16,14 +17,6 @@ FActiveMQConnectionMetaData::FActiveMQConnectionMetaData()
 	, ProviderMajorVersion(-1)
 	, ProviderMinorVersion(-1)
 	, ProviderPatchVersion(-1)
-{
-}
-
-UActiveMQConnection::UActiveMQConnection()
-{
-}
-
-UActiveMQConnection::~UActiveMQConnection()
 {
 }
 
@@ -53,7 +46,8 @@ void UActiveMQConnection::SetInnerConnection(const TSharedPtr<cms::Connection>& 
 	InnerConnection = NewConnection;
 	if (InnerConnection)
 	{
-		InnerConnection->setExceptionListener(this);
+		ExceptionListener = MakeShared<FActiveMQExceptionListener>(this, EActiveMQExceptionOwnerType::EOT_Connection);
+		InnerConnection->setExceptionListener(ExceptionListener.Get());
 	}
 }
 
@@ -205,14 +199,6 @@ void UActiveMQConnection::SetClientID(const FString& InClientID)
 TArray<UActiveMQSession*> UActiveMQConnection::GetAllSessions() const
 {
 	return Sessions;
-}
-
-void UActiveMQConnection::onException(const cms::CMSException& Exception)
-{
-	AsyncTask(ENamedThreads::Type::GameThread, [Exception, this]()
-	{
-		DeliverException(this, GetClientID(), EActiveMQExceptionOwnerType::EOT_Connection, Exception);
-	});
 }
 
 void UActiveMQConnection::HandleSessionCloseEvent(UActiveMQSession* Session)

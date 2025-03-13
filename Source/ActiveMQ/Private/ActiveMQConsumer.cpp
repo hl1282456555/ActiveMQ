@@ -4,6 +4,7 @@
 #include "ActiveMQConsumer.h"
 
 #include "ActiveMQExceptionHelper.h"
+#include "Utils/ActiveMQMessageListener.h"
 
 THIRD_PARTY_INCLUDES_START
 #include "cms/MessageConsumer.h"
@@ -35,7 +36,8 @@ void UActiveMQConsumer::SetInnerConsumer(const TSharedPtr<cms::MessageConsumer>&
 	{
 		try
 		{
-			InnerConsumer->setMessageListener(this);
+			MessageListener = MakeShared<FActiveMQMessageListener>(this);
+			InnerConsumer->setMessageListener(MessageListener.Get());
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(GetName(), EActiveMQExceptionOwnerType::EOT_Consumer)
 	}
@@ -147,22 +149,4 @@ void UActiveMQConsumer::Stop()
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(GetName(), EActiveMQExceptionOwnerType::EOT_Consumer)
 	}
-}
-
-void UActiveMQConsumer::onMessage(const cms::Message* InMessage)
-{
-	cms::Message* ClonedMessage = InMessage->clone();
-	AsyncTask(ENamedThreads::Type::GameThread, [this, ClonedMessage]()
-	{
-		UActiveMQSubsystem* Subsystem = GetWorld()->GetSubsystem<UActiveMQSubsystem>();
-		if (OnReceivedMessage.IsBound() && Subsystem != nullptr)
-		{
-			UActiveMQMessage* UEMessage = Subsystem->ConvertCMSMessageToUEMessage(this, ClonedMessage);
-
-			if (UEMessage != nullptr)
-			{
-				OnReceivedMessage.Broadcast(this, UEMessage);
-			}
-		}
-	});
 }

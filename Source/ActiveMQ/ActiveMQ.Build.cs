@@ -8,6 +8,7 @@ public class ActiveMQ : ModuleRules
 	public ActiveMQ(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
+		CppStandard = CppStandardVersion.Cpp20;
 		
 		bUseRTTI = true;
 		bEnableExceptions = true;
@@ -48,6 +49,15 @@ public class ActiveMQ : ModuleRules
 				
 			RuntimeDependencies.Add(Path.Combine(ThirdPartyPath, "bin", "libapr-1.dll"));
 			RuntimeDependencies.Add(Path.Combine(ThirdPartyPath, "bin", "activemq-cpp.dll"));
+			
+			PublicDefinitions.AddRange(new string[]
+			{
+				"NOMINMAX",
+				"CMS_DLL",
+				"AMQCPP_DLL",
+				"DECAF_DLL",
+				"HAVE_OPENSSL"
+			});
 		}
 	}
 }

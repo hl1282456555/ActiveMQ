@@ -70,6 +70,8 @@ namespace commands {
 
         virtual std::string getText() const;
 
+        virtual std::shared_ptr<std::string> getTextPtr() const;
+
         virtual void setText(const char* msg);
 
         virtual void setText(const std::string& msg);

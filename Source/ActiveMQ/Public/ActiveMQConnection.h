@@ -4,9 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
-THIRD_PARTY_INCLUDES_START
-#include "cms/ExceptionListener.h"
-THIRD_PARTY_INCLUDES_END
 #include "ActiveMQSession.h"
 #include "ActiveMQConnection.generated.h"
 
@@ -50,19 +47,18 @@ namespace cms
 	class Connection;
 }
 
+class FActiveMQExceptionListener;
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActiveMQConnectionClosedDelegate, UActiveMQConnection*, Connection);
 
 /**
  * 
  */
 UCLASS(BlueprintType)
-class ACTIVEMQ_API UActiveMQConnection : public UObject, public cms::ExceptionListener
+class ACTIVEMQ_API UActiveMQConnection : public UObject
 {
 	GENERATED_BODY()
 public:
-	UActiveMQConnection();
-	virtual ~UActiveMQConnection() override;
-
 	virtual void BeginDestroy() override;
 
 	virtual void SetInnerConnection(const TSharedPtr<cms::Connection>& NewConnection);
@@ -93,8 +89,6 @@ public:
 	TArray<UActiveMQSession*> GetAllSessions() const;
 
 protected:
-	virtual void onException(const cms::CMSException& Exception) override;
-
 	UFUNCTION()
 	void HandleSessionCloseEvent(UActiveMQSession* Session);
 
@@ -105,6 +99,8 @@ public:
 protected:
 	UPROPERTY()
 	TArray<UActiveMQSession*> Sessions;
+
+	TSharedPtr<FActiveMQExceptionListener> ExceptionListener;
 	
 private:
 	TSharedPtr<cms::Connection> InnerConnection;

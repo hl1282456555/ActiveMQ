@@ -5,14 +5,6 @@
 
 #include "cms/CMSProperties.h"
 
-UActiveMQProperties::UActiveMQProperties()
-{
-}
-
-UActiveMQProperties::~UActiveMQProperties()
-{
-}
-
 void UActiveMQProperties::SetInnerProperties(const TSharedPtr<cms::CMSProperties>& NewProperties)
 {
 	InnerProperties = NewProperties;

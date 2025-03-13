@@ -53,6 +53,16 @@ namespace cms {
         virtual std::string getText() const = 0;
 
         /**
+         * Gets the message character buffer, shared_ptr version.
+         *
+         * @return The message character buffer.
+         *
+         * @throws CMSException - if an internal error occurs.
+         */
+        virtual std::shared_ptr<std::string> getTextPtr() const = 0;
+
+
+        /**
          * Sets the message contents, does not take ownership of the passed
          * char*, but copies it instead.
          *

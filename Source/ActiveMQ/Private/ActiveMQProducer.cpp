@@ -6,6 +6,7 @@
 #include "ActiveMQDestination.h"
 #include "ActiveMQExceptionHelper.h"
 #include "Messages/ActiveMQMessage.h"
+#include "Utils/ActiveMQAsyncCallback.h"
 
 THIRD_PARTY_INCLUDES_START
 #include "cms/MessageProducer.h"
@@ -33,6 +34,7 @@ void UActiveMQProducer::BeginDestroy()
 void UActiveMQProducer::SetInnerProducer(const TSharedPtr<cms::MessageProducer>& NewProducer)
 {
 	InnerProducer = NewProducer;
+	ProducerCallback = MakeShared<FActiveMQProducerCallback>(this);
 }
 
 const TSharedPtr<cms::MessageProducer>& UActiveMQProducer::GetInnerProducer() const
@@ -84,7 +86,7 @@ void UActiveMQProducer::AsyncSend(UActiveMQMessage* Message)
 	{
 		try
 		{
-			InnerProducer->send(Message->GetInnerMessage().Get(), this);
+			InnerProducer->send(Message->GetInnerMessage().Get(), ProducerCallback.Get());
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(GetName(), EActiveMQExceptionOwnerType::EOT_Producer)
 	}
@@ -97,7 +99,7 @@ void UActiveMQProducer::AsyncSend_WithParams(UActiveMQMessage* Message, EActiveM
 	{
 		try
 		{
-			InnerProducer->send(Message->GetInnerMessage().Get(), static_cast<int32>(DeliveryMode), Priority, TimeToLive, this);
+			InnerProducer->send(Message->GetInnerMessage().Get(), static_cast<int32>(DeliveryMode), Priority, TimeToLive, ProducerCallback.Get());
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(GetName(), EActiveMQExceptionOwnerType::EOT_Producer)
 	}
@@ -134,7 +136,7 @@ void UActiveMQProducer::AsyncSendTo(UActiveMQDestination* Destination, UActiveMQ
 	{
 		try
 		{
-			InnerProducer->send(Destination->GetInnerDestination().Get(), Message->GetInnerMessage().Get(), this);
+			InnerProducer->send(Destination->GetInnerDestination().Get(), Message->GetInnerMessage().Get(), ProducerCallback.Get());
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(GetName(), EActiveMQExceptionOwnerType::EOT_Producer)
 	}
@@ -147,7 +149,7 @@ void UActiveMQProducer::AsyncSendTo_WithParams(UActiveMQDestination* Destination
 	{
 		try
 		{
-			InnerProducer->send(Destination->GetInnerDestination().Get(), Message->GetInnerMessage().Get(), static_cast<int32>(DeliveryMode), Priority, TimeToLive, this);
+			InnerProducer->send(Destination->GetInnerDestination().Get(), Message->GetInnerMessage().Get(), static_cast<int32>(DeliveryMode), Priority, TimeToLive, ProducerCallback.Get());
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(GetName(), EActiveMQExceptionOwnerType::EOT_Producer)
 	}
@@ -281,18 +283,4 @@ int64 UActiveMQProducer::GetTimeToLive() const
 	}
 
 	return 0;
-}
-
-void UActiveMQProducer::onSuccess()
-{
-	AsyncTask(ENamedThreads::Type::GameThread, [this](){ OnSendAsyncComplete.Broadcast(this, true); });
-}
-
-void UActiveMQProducer::onException(const cms::CMSException& Exception)
-{
-	AsyncTask(ENamedThreads::Type::GameThread, [this, Exception]()
-	{
-		OnSendAsyncComplete.Broadcast(this, false);
-		DeliverException(this, GetName(), EActiveMQExceptionOwnerType::EOT_Producer, Exception);
-	});
 }

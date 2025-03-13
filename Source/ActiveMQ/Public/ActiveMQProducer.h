@@ -4,18 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Object.h"
-THIRD_PARTY_INCLUDES_START
-#include "cms/AsyncCallback.h"
-THIRD_PARTY_INCLUDES_END
 #include "ActiveMQProducer.generated.h"
-
-namespace cms
-{
-	class MessageProducer;
-}
-
-class UActiveMQMessage;
-class UActiveMQDestination;
 
 UENUM(BlueprintType)
 enum class EActiveMQDeliveryMode : uint8
@@ -24,6 +13,15 @@ enum class EActiveMQDeliveryMode : uint8
 	Non_Persistent
 };
 
+namespace cms
+{
+	class MessageProducer;
+}
+
+class UActiveMQMessage;
+class UActiveMQDestination;
+class FActiveMQProducerCallback;
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FOnActiveMQProducerSendAsyncCompleteDelegate, UActiveMQProducer*, Producer, bool, bSuccess);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActiveMQProducerClosedDelegate, UActiveMQProducer*, Producer);
 
@@ -31,7 +29,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnActiveMQProducerClosedDelegate, U
  * 
  */
 UCLASS(BlueprintType)
-class ACTIVEMQ_API UActiveMQProducer : public UObject, public cms::AsyncCallback
+class ACTIVEMQ_API UActiveMQProducer : public UObject
 {
 	GENERATED_BODY()
 public:
@@ -96,11 +94,7 @@ public:
 
 	UFUNCTION(BlueprintPure, Category = "ActiveMQ | Producer")
 	virtual int64 GetTimeToLive() const;
-
-protected:
-	virtual void onSuccess() override;
-	virtual void onException(const cms::CMSException& Exception) override;
-
+	
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, BlueprintAssignable, Category = "ActiveMQ | Producer")
 	FOnActiveMQProducerSendAsyncCompleteDelegate OnSendAsyncComplete;
@@ -110,4 +104,6 @@ public:
 	
 private:
 	TSharedPtr<cms::MessageProducer> InnerProducer;
+
+	TSharedPtr<FActiveMQProducerCallback> ProducerCallback;
 };

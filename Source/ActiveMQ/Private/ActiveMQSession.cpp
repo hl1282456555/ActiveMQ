@@ -20,13 +20,10 @@ THIRD_PARTY_INCLUDES_START
 #include "cms/Queue.h"
 THIRD_PARTY_INCLUDES_END
 
-UActiveMQSession::UActiveMQSession()
+UActiveMQSession::UActiveMQSession(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
 {
 	SessionID = FString::Printf(TEXT("ActiveMQSession_%s"), *FGuid::NewGuid().ToString());
-}
-
-UActiveMQSession::~UActiveMQSession()
-{
 }
 
 void UActiveMQSession::BeginDestroy()

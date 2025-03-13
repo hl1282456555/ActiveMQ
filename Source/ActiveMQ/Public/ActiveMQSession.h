@@ -78,8 +78,7 @@ class ACTIVEMQ_API UActiveMQSession : public UObject
 {
 	GENERATED_BODY()
 public:
-	UActiveMQSession();
-	virtual ~UActiveMQSession() override;
+	UActiveMQSession(const FObjectInitializer& ObjectInitializer);
 
 	virtual void BeginDestroy() override;
 

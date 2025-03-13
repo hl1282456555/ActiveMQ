@@ -15,14 +15,6 @@ THIRD_PARTY_INCLUDES_END
 
 #include "ActiveMQProperties.h"
 
-UActiveMQDestination::UActiveMQDestination()
-{
-}
-
-UActiveMQDestination::~UActiveMQDestination()
-{
-}
-
 void UActiveMQDestination::BeginDestroy()
 {
 	UObject::BeginDestroy();

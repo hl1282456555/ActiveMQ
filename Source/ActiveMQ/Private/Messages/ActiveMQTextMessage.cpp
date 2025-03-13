@@ -20,7 +20,7 @@ FString UActiveMQTextMessage::GetText() const
 	{
 		try
 		{
-			return UTF8_TO_TCHAR(StaticCastSharedPtr<cms::TextMessage>(InnerMessage)->getText().c_str());
+			return UTF8_TO_TCHAR(StaticCastSharedPtr<cms::TextMessage>(InnerMessage)->getTextPtr()->c_str());
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(GetCMSMessageID(), EActiveMQExceptionOwnerType::EOT_Message);
 	}

@@ -100,7 +100,7 @@ namespace commands {
 
         virtual unsigned char getDataStructureType() const;
 
-        virtual std::string toString() const;
+        virtual std::shared_ptr<std::string> toString() const;
 
         int getHashCode() const {
             return this->hashCode;

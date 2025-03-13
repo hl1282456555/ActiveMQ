@@ -10,7 +10,7 @@ This plugin uses a modified version of the ActiveMQ-cpp library, not the origina
  UActiveMQSubsystem::CreateConnection is used to create a connection, which is the starting point of all processes.
 
 # TODO
-- [ ] Wrap all interfaces in activemq-cpp that return STL types with `std::shared_ptr`
+- [x] Wrap all interfaces in activemq-cpp that return STL types with `std::shared_ptr`
 - [ ] Wrap `char`, `short`, and `unsigned short` to support interfaces that are currently inaccessible in Blueprints
 
 # Example

@@ -47,7 +47,7 @@ namespace commands {
 
         virtual ActiveMQMessage* cloneDataStructure() const;
 
-        virtual std::string toString() const;
+        virtual std::shared_ptr<std::string> toString() const;
 
         virtual bool equals(const DataStructure* value) const;
 

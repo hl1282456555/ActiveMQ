@@ -91,7 +91,7 @@ namespace cms {
          *
          * @throws CMSException - if the operation fails due to an internal error.
          */
-        virtual std::vector<std::string> getMapNames() const = 0;
+        virtual std::shared_ptr<std::vector<std::string>> getMapNames() const = 0;
 
         /**
          * Indicates whether an item exists in this MapMessage object.
@@ -176,7 +176,7 @@ namespace cms {
          * @throws CMSException - if the operation fails due to an internal error.
          * @throws MessageFormatException - if this type conversion is invalid.
          */
-        virtual std::vector<unsigned char> getBytes(const std::string& name) const = 0;
+        virtual std::shared_ptr<std::vector<unsigned char>> getBytes(const std::string& name) const = 0;
 
         /**
          * Sets a Bytes value with the specified name into the Map.
@@ -344,7 +344,7 @@ namespace cms {
          * @throws CMSException - if the operation fails due to an internal error.
          * @throws MessageFormatException - if this type conversion is invalid.
          */
-        virtual std::string getString(const std::string& name) const = 0;
+        virtual std::shared_ptr<std::string> getString(const std::string& name) const = 0;
 
         /**
          * Sets a String value with the specified name into the Map.

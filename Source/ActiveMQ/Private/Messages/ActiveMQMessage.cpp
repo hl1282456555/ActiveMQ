@@ -81,8 +81,8 @@ TArray<FString> UActiveMQMessage::GetPropertyNames() const
 	{
 		try
 		{
-			std::vector<std::string> PropertyNames = InnerMessage->getPropertyNames();
-			for (const std::string& PropertyName : PropertyNames)
+			std::shared_ptr<std::vector<std::string>> PropertyNames = InnerMessage->getPropertyNames();
+			for (const std::string& PropertyName : *PropertyNames)
 			{
 				Result.Add(UTF8_TO_TCHAR(PropertyName.c_str()));
 			}
@@ -225,7 +225,7 @@ FString UActiveMQMessage::GetStringProperty(const FString& PropertyName) const
 	{
 		try
 		{
-			return UTF8_TO_TCHAR(InnerMessage->getStringProperty(TCHAR_TO_UTF8(*PropertyName)).c_str());
+			return UTF8_TO_TCHAR(InnerMessage->getStringProperty(TCHAR_TO_UTF8(*PropertyName))->c_str());
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(GetCMSMessageID(), EActiveMQExceptionOwnerType::EOT_Message)
 	}
@@ -335,7 +335,7 @@ FString UActiveMQMessage::GetCMSCorrelationID() const
 	{
 		try
 		{
-			return UTF8_TO_TCHAR(InnerMessage->getCMSCorrelationID().c_str());
+			return UTF8_TO_TCHAR(InnerMessage->getCMSCorrelationID()->c_str());
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(GetCMSMessageID(), EActiveMQExceptionOwnerType::EOT_Message)
 	}
@@ -433,7 +433,7 @@ FString UActiveMQMessage::GetCMSMessageID() const
 	{
 		try
 		{
-			return UTF8_TO_TCHAR(InnerMessage->getCMSMessageID().c_str());
+			return UTF8_TO_TCHAR(InnerMessage->getCMSMessageID()->c_str());
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(GetCMSMessageID(), EActiveMQExceptionOwnerType::EOT_Message)
 	}
@@ -565,7 +565,7 @@ FString UActiveMQMessage::GetCMSType() const
 	{
 		try
 		{
-			return UTF8_TO_TCHAR(InnerMessage->getCMSType().c_str());
+			return UTF8_TO_TCHAR(InnerMessage->getCMSType()->c_str());
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(GetCMSMessageID(), EActiveMQExceptionOwnerType::EOT_Message)
 	}

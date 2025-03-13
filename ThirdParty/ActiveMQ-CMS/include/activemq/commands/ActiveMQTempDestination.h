@@ -81,7 +81,7 @@ namespace commands{
             ActiveMQDestination::copyDataStructure(src);
         }
 
-        virtual std::string toString() const;
+        virtual std::shared_ptr<std::string> toString() const;
 
         virtual bool equals(const DataStructure* value) const {
             return ActiveMQDestination::equals(value);

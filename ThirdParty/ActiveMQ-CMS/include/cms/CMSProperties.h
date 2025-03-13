@@ -22,6 +22,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <memory>
 
 namespace cms {
 
@@ -71,7 +72,7 @@ namespace cms {
          * @return The value of the property specified by <code>name</code>, if it
          *         exists, otherwise the <code>defaultValue</code>.
          */
-        virtual std::string getProperty(const std::string& name, const std::string& defaultValue) const = 0;
+        virtual std::shared_ptr<std::string> getProperty(const std::string& name, const std::string& defaultValue) const = 0;
 
         /**
          * Sets the value for a given property.  If the property already
@@ -103,7 +104,7 @@ namespace cms {
          *
          * @return the value that was removed from the Properties, or empty string.
          */
-        virtual std::string remove(const std::string& name) = 0;
+        virtual std::shared_ptr<std::string> remove(const std::string& name) = 0;
 
         /**
          * Returns a vector containing all the names of the properties currently stored
@@ -111,7 +112,7 @@ namespace cms {
          *
          * @return an STL std::vector<std::string> with all the currently stored property names.
          */
-        virtual std::vector<std::string> propertyNames() const = 0;
+        virtual std::shared_ptr<std::vector<std::string>> propertyNames() const = 0;
 
         /**
          * Method that serializes the contents of the property map to
@@ -120,7 +121,7 @@ namespace cms {
          * @return list of pairs where the first is the name and the second
          *         is the value.
          */
-        virtual std::vector< std::pair< std::string, std::string > > toArray() const = 0;
+        virtual std::shared_ptr<std::vector< std::pair< std::string, std::string > >> toArray() const = 0;
 
         /**
          * Copies the contents of the given properties object to this one.
@@ -148,7 +149,7 @@ namespace cms {
          *
          * @return string value of this object.
          */
-        virtual std::string toString() const = 0;
+        virtual std::shared_ptr<std::string> toString() const = 0;
 
    };
 

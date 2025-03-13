@@ -82,7 +82,7 @@ namespace kernels {
 
         virtual const cms::Queue* getQueue() const;
 
-        virtual std::string getMessageSelector() const;
+        virtual std::shared_ptr<std::string> getMessageSelector() const;
 
         virtual cms::MessageEnumeration* getEnumeration();
 

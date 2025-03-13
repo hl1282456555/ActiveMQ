@@ -286,7 +286,7 @@ namespace core {
         /**
          * {@inheritDoc}
          */
-        virtual std::string getClientID() const;
+        virtual std::shared_ptr<std::string> getClientID() const;
 
         /**
          * {@inheritDoc}

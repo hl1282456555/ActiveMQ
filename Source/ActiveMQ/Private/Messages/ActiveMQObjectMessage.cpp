@@ -21,9 +21,9 @@ TArray<uint8> UActiveMQObjectMessage::GetObjectBytes() const
     	{
     		try
     		{
-    			std::vector<uint8> Bytes = StaticCastSharedPtr<cms::ObjectMessage>(InnerMessage)->getObjectBytes();
-    			OutBytes.SetNumUninitialized(Bytes.size());
-    			FMemory::Memcpy(OutBytes.GetData(), Bytes.data(), Bytes.size());
+    			std::shared_ptr<std::vector<uint8>> Bytes = StaticCastSharedPtr<cms::ObjectMessage>(InnerMessage)->getObjectBytes();
+    			OutBytes.SetNumUninitialized(Bytes->size());
+    			FMemory::Memcpy(OutBytes.GetData(), Bytes->data(), Bytes->size());
     		}
     		ACTIVEMQ_EXCEPTION_DELIVER_END(GetCMSMessageID(), EActiveMQExceptionOwnerType::EOT_Message);
     	}

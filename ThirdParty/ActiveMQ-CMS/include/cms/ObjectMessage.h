@@ -57,7 +57,7 @@ namespace cms {
          * @throws CMSException - if the operation fails due to an internal error.
          * @throws MessageNotReadableException - if the message is in write only mode.
          */
-        virtual std::vector<unsigned char> getObjectBytes() const = 0;
+        virtual std::shared_ptr<std::vector<unsigned char>> getObjectBytes() const = 0;
 
     };
 

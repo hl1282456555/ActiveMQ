@@ -44,15 +44,15 @@ namespace core {
 
     public:  // cms::ConnectionMetaData
 
-        virtual std::string getCMSVersion() const;
+        virtual std::shared_ptr<std::string> getCMSVersion() const;
 
         virtual int getCMSMajorVersion() const;
 
         virtual int getCMSMinorVersion() const;
 
-        virtual std::string getCMSProviderName() const;
+        virtual std::shared_ptr<std::string> getCMSProviderName() const;
 
-        virtual std::string getProviderVersion() const;
+        virtual std::shared_ptr<std::string> getProviderVersion() const;
 
         virtual int getProviderMajorVersion() const;
 
@@ -60,7 +60,7 @@ namespace core {
 
         virtual int getProviderPatchVersion() const;
 
-        virtual std::vector<std::string> getCMSXPropertyNames() const;
+        virtual std::shared_ptr<std::vector<std::string>> getCMSXPropertyNames() const;
 
     };
 

@@ -321,8 +321,8 @@ FString UActiveMQStreamMessage::ReadString() const
 	{
 		try
 		{
-			std::string Value = StaticCastSharedPtr<cms::StreamMessage>(InnerMessage)->readString();
-			return UTF8_TO_TCHAR(Value.c_str());
+			std::shared_ptr<std::string> Value = StaticCastSharedPtr<cms::StreamMessage>(InnerMessage)->readString();
+			return UTF8_TO_TCHAR(Value->c_str());
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(GetCMSMessageID(), EActiveMQExceptionOwnerType::EOT_Message)
 	}

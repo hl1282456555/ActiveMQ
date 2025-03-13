@@ -73,7 +73,7 @@ namespace cms {
          *
          * @return string errors message
          */
-        virtual std::string getMessage() const;
+        virtual std::shared_ptr<std::string> getMessage() const;
 
         /**
          * Gets the exception that caused this one to be thrown, this allows
@@ -92,7 +92,7 @@ namespace cms {
          *
          * @return vector containing stack trace strings
          */
-        virtual std::vector< std::pair< std::string, int> > getStackTrace() const;
+        virtual std::shared_ptr<std::vector< std::pair< std::string, int> >> getStackTrace() const;
 
         /**
          * Adds a file/line number to the stack trace.
@@ -118,7 +118,7 @@ namespace cms {
          *
          * @return string with formatted stack trace data
          */
-        virtual std::string getStackTraceString() const;
+        virtual std::shared_ptr<std::string> getStackTraceString() const;
 
         /**
          * Overloads the std::exception what() function to return the cause of the exception

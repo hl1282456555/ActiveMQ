@@ -107,7 +107,7 @@ namespace kernels {
 
         virtual cms::MessageAvailableListener* getMessageAvailableListener() const;
 
-        virtual std::string getMessageSelector() const;
+        virtual std::shared_ptr<std::string> getMessageSelector() const;
 
         virtual void setMessageTransformer(cms::MessageTransformer* transformer);
 

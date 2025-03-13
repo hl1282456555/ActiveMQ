@@ -45,7 +45,7 @@ namespace cms {
          *
          * @throws CMSException - If an internal error occurs.
          */
-        virtual std::string getTopicName() const = 0;
+        virtual std::shared_ptr<std::string> getTopicName() const = 0;
 
     };
 

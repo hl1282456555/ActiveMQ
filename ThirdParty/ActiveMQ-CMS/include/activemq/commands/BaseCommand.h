@@ -64,7 +64,7 @@ namespace commands {
          * such as its type and value of its elements.
          * @return formatted string useful for debugging.
          */
-        virtual std::string toString() const {
+        virtual std::shared_ptr<std::string> toString() const {
             std::ostringstream stream;
 
             stream << "Begin Class = BaseCommand" << std::endl;
@@ -73,7 +73,7 @@ namespace commands {
             stream << "  Command Id = " << commandId << std::endl;
             stream << "End Class = BaseCommand" << std::endl;
 
-            return stream.str();
+            return std::make_shared<std::string>(std::move(stream.str()));
         }
 
         /**

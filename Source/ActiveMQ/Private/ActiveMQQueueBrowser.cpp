@@ -68,7 +68,7 @@ UActiveMQQueue* UActiveMQQueueBrowser::GetQueue() const
 		ACTIVEMQ_EXCEPTION_DELIVER_END(GetName(), EActiveMQExceptionOwnerType::EOT_QueueBrowser)
 	}
 
-	return nullptr;
+	return NewQueue;
 }
 
 FString UActiveMQQueueBrowser::GetMessageSelector() const
@@ -77,7 +77,7 @@ FString UActiveMQQueueBrowser::GetMessageSelector() const
 	{
 		try
 		{
-			return UTF8_TO_TCHAR(InnerQueueBrowser->getMessageSelector().c_str());
+			return UTF8_TO_TCHAR(InnerQueueBrowser->getMessageSelector()->c_str());
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(GetName(), EActiveMQExceptionOwnerType::EOT_QueueBrowser)
 	}

@@ -35,14 +35,14 @@ namespace commands{
 
         virtual void copyDataStructure( const DataStructure* src AMQCPP_UNUSED) {}
 
-        virtual std::string toString() const {
+        virtual std::shared_ptr<std::string> toString() const {
             std::ostringstream stream;
 
             stream << "Begin Class = BooleanExpression" << std::endl;
             stream << BaseDataStructure::toString();
             stream << "Begin Class = BooleanExpression" << std::endl;
 
-            return stream.str();
+            return std::make_shared<std::string>(std::move(stream.str()));
         }
 
         virtual bool equals( const DataStructure* value ) const {

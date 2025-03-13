@@ -52,7 +52,7 @@ namespace commands {
 
         virtual void copyDataStructure(const DataStructure* src);
 
-        virtual std::string toString() const;
+        virtual std::shared_ptr<std::string> toString() const;
 
         virtual bool equals(const DataStructure* value) const;
 
@@ -68,9 +68,7 @@ namespace commands {
 
     public: // CMS TextMessage
 
-        virtual std::string getText() const;
-
-        virtual std::shared_ptr<std::string> getTextPtr() const;
+        virtual std::shared_ptr<std::string> getText() const;
 
         virtual void setText(const char* msg);
 

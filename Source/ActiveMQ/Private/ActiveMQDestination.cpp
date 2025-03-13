@@ -74,7 +74,7 @@ FString UActiveMQTopic::GetTopicName() const
 	{
 		try
 		{
-			FString TopicName = UTF8_TO_TCHAR(StaticCastSharedPtr<cms::Topic>(InnerDestination)->getTopicName().c_str());
+			FString TopicName = UTF8_TO_TCHAR(StaticCastSharedPtr<cms::Topic>(InnerDestination)->getTopicName()->c_str());
 			return TopicName;
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(GetName(), EActiveMQExceptionOwnerType::EOT_Destination)
@@ -89,7 +89,7 @@ FString UActiveMQQueue::GetQueueName() const
 	{
 		try
 		{
-			FString QueueName = UTF8_TO_TCHAR(StaticCastSharedPtr<cms::Queue>(InnerDestination)->getQueueName().c_str());
+			FString QueueName = UTF8_TO_TCHAR(StaticCastSharedPtr<cms::Queue>(InnerDestination)->getQueueName()->c_str());
 			return QueueName;
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(GetName(), EActiveMQExceptionOwnerType::EOT_Destination)

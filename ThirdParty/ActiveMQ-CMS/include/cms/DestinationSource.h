@@ -72,7 +72,7 @@ namespace cms {
          *
          * @return an STL vector containing the current list of known Queues.
          */
-        virtual std::vector<cms::Queue*> getQueues() const = 0;
+        virtual std::shared_ptr<std::vector<cms::Queue*>> getQueues() const = 0;
 
         /**
          * Returns a snapshot of the currently known Queues that are active on the CMS
@@ -84,7 +84,7 @@ namespace cms {
          *
          * @return an STL vector containing the current list of known Queues.
          */
-        virtual std::vector<cms::Topic*> getTopics() const = 0;
+        virtual std::shared_ptr<std::vector<cms::Topic*>> getTopics() const = 0;
 
         /**
          * Returns a snapshot of the currently known Queues that are active on the CMS
@@ -96,7 +96,7 @@ namespace cms {
          *
          * @return an STL vector containing the current list of known Queues.
          */
-        virtual std::vector<cms::TemporaryQueue*> getTemporaryQueues() const = 0;
+        virtual std::shared_ptr<std::vector<cms::TemporaryQueue*>> getTemporaryQueues() const = 0;
 
         /**
          * Returns a snapshot of the currently known Queues that are active on the CMS
@@ -108,7 +108,7 @@ namespace cms {
          *
          * @return an STL vector containing the current list of known Queues.
          */
-        virtual std::vector<cms::TemporaryTopic*> getTemporaryTopics() const = 0;
+        virtual std::shared_ptr<std::vector<cms::TemporaryTopic*>> getTemporaryTopics() const = 0;
 
     };
 

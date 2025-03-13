@@ -121,7 +121,7 @@ namespace cms {
          *
          * @throws CMSException - If an internal error occurs.
          */
-        virtual std::string getMessageSelector() const = 0;
+        virtual std::shared_ptr<std::string> getMessageSelector() const = 0;
 
         /**
          * Set an MessageTransformer instance that is applied to all cms::Message objects before they

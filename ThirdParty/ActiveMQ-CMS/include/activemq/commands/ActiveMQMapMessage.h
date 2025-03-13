@@ -63,7 +63,7 @@ namespace commands {
 
         virtual void beforeMarshal(wireformat::WireFormat* wireFormat);
 
-        virtual std::string toString() const;
+        virtual std::shared_ptr<std::string> toString() const;
 
         virtual bool equals(const DataStructure* value) const;
 
@@ -77,7 +77,7 @@ namespace commands {
 
         virtual bool isEmpty() const;
 
-        virtual std::vector<std::string> getMapNames() const;
+        virtual std::shared_ptr<std::vector<std::string>> getMapNames() const;
 
         virtual bool itemExists(const std::string& name) const;
 
@@ -91,7 +91,7 @@ namespace commands {
 
         virtual void setByte(const std::string& name, unsigned char value);
 
-        virtual std::vector<unsigned char> getBytes(const std::string& name) const;
+        virtual std::shared_ptr<std::vector<unsigned char>> getBytes(const std::string& name) const;
 
         virtual void setBytes(const std::string& name, const std::vector<unsigned char>& value);
 
@@ -119,7 +119,7 @@ namespace commands {
 
         virtual void setShort(const std::string& name, short value);
 
-        virtual std::string getString(const std::string& name) const;
+        virtual std::shared_ptr<std::string> getString(const std::string& name) const;
 
         virtual void setString(const std::string& name, const std::string& value);
 

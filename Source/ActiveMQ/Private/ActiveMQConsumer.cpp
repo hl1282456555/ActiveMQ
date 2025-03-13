@@ -105,7 +105,7 @@ FString UActiveMQConsumer::GetMessageSelector() const
 	{
 		try
 		{
-			return UTF8_TO_TCHAR(InnerConsumer->getMessageSelector().c_str());
+			return UTF8_TO_TCHAR(InnerConsumer->getMessageSelector()->c_str());
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(GetName(), EActiveMQExceptionOwnerType::EOT_Consumer)
 	}

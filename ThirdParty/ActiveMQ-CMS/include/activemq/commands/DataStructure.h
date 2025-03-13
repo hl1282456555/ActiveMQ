@@ -54,7 +54,7 @@ namespace commands{
          * such as its type and value of its elements.
          * @return formatted string useful for debugging.
          */
-        virtual std::string toString() const = 0;
+        virtual std::shared_ptr<std::string> toString() const = 0;
 
         /**
          * Compares the DataStructure passed in to this one, and returns if

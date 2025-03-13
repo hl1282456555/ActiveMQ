@@ -119,7 +119,7 @@ namespace cms {
          *
          * @throws CMSException if the provider fails to return the client id or an internal error occurs.
          */
-        virtual std::string getClientID() const = 0;
+        virtual std::shared_ptr<std::string> getClientID() const = 0;
 
         /**
          * Sets the client identifier for this connection.

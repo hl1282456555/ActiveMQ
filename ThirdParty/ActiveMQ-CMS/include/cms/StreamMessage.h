@@ -383,7 +383,7 @@ namespace cms {
          * @throw MessageFormatException - if this type conversion is invalid.
          * @throw MessageNotReadableException - if the message is in write-only mode.
          */
-        virtual std::string readString() const = 0;
+        virtual std::shared_ptr<std::string> readString() const = 0;
 
         /**
          * Writes an ASCII String to the Stream message stream

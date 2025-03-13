@@ -32,8 +32,8 @@ FString UActiveMQProperties::GetProperty(const FString& PropertyName, const FStr
 		return DefaultValue;
 	}
 
-	std::string PropertyValue = InnerProperties->getProperty(TCHAR_TO_UTF8(*PropertyName), TCHAR_TO_UTF8(*DefaultValue));
-	return FString(UTF8_TO_TCHAR(PropertyValue.c_str()));
+	std::shared_ptr<std::string> PropertyValue = InnerProperties->getProperty(TCHAR_TO_UTF8(*PropertyName), TCHAR_TO_UTF8(*DefaultValue));
+	return FString(UTF8_TO_TCHAR(PropertyValue->c_str()));
 }
 
 void UActiveMQProperties::SetProperty(const FString& PropertyName, const FString& Value)
@@ -65,8 +65,8 @@ TArray<FString> UActiveMQProperties::GetPropertyNames() const
 	TArray<FString> Result;
 	if (InnerProperties)
 	{
-		std::vector<std::string> PropertyNames = InnerProperties->propertyNames();
-		for (const std::string& PropertyName : PropertyNames)
+		std::shared_ptr<std::vector<std::string>> PropertyNames = InnerProperties->propertyNames();
+		for (const std::string& PropertyName : *PropertyNames)
 		{
 			Result.Add(FString(UTF8_TO_TCHAR(PropertyName.c_str())));
 		}
@@ -80,8 +80,8 @@ TMap<FString, FString> UActiveMQProperties::ToMap() const
 	TMap<FString, FString> Result;
 	if (InnerProperties)
 	{
-		std::vector<std::pair<std::string, std::string>> SourceMap = InnerProperties->toArray();
-		for (const std::pair<std::string, std::string>& Pair : SourceMap)
+		std::shared_ptr<std::vector<std::pair<std::string, std::string>>> SourceMap = InnerProperties->toArray();
+		for (const std::pair<std::string, std::string>& Pair : *SourceMap)
 		{
 			Result.Add(UTF8_TO_TCHAR(Pair.first.c_str()), UTF8_TO_TCHAR(Pair.second.c_str()));
 		}
@@ -116,5 +116,5 @@ void UActiveMQProperties::Clear()
 
 FString UActiveMQProperties::ToString() const
 {
-	return InnerProperties ? UTF8_TO_TCHAR(InnerProperties->toString().c_str()) : TEXT("");
+	return InnerProperties ? UTF8_TO_TCHAR(InnerProperties->toString()->c_str()) : TEXT("");
 }

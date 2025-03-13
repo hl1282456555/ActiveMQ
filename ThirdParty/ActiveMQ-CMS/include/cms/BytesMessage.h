@@ -428,7 +428,7 @@ namespace cms {
          * @throws MessageEOFException - if unexpected end of bytes stream has been reached.
          * @throws MessageNotReadableException - if the message is in write-only mode.
          */
-        virtual std::string readString() const = 0;
+        virtual std::shared_ptr<std::string> readString() const = 0;
 
         /**
          * Writes an ASCII String to the Bytes message stream
@@ -452,7 +452,7 @@ namespace cms {
          * @throws MessageEOFException - if unexpected end of bytes stream has been reached.
          * @throws MessageNotReadableException - if the message is in write-only mode.
          */
-        virtual std::string readUTF() const = 0;
+        virtual std::shared_ptr<std::string> readUTF() const = 0;
 
         /**
          * Writes an UTF String to the BytesMessage stream

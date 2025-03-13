@@ -68,7 +68,7 @@ namespace cms {
          *
          * @throws CMSException if an internal error occurs.
          */
-        virtual std::string getMessageSelector() const = 0;
+        virtual std::shared_ptr<std::string> getMessageSelector() const = 0;
 
         /**
          * Gets a pointer to an Enumeration object for browsing the Messages currently in

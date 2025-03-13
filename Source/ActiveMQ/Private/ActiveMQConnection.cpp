@@ -72,17 +72,17 @@ FActiveMQConnectionMetaData UActiveMQConnection::GetMetaData() const
 			return Result;
 		}
 
-		Result.CMSVersion = MetaData->getCMSVersion().c_str();
+		Result.CMSVersion = MetaData->getCMSVersion()->c_str();
 		Result.CMSMajorVersion = MetaData->getCMSMajorVersion();
 		Result.CMSMinorVersion = MetaData->getCMSMinorVersion();
-		Result.CMSProviderName = MetaData->getCMSProviderName().c_str();
-		Result.ProviderVersion = MetaData->getProviderVersion().c_str();
+		Result.CMSProviderName = MetaData->getCMSProviderName()->c_str();
+		Result.ProviderVersion = MetaData->getProviderVersion()->c_str();
 		Result.ProviderMajorVersion = MetaData->getProviderMajorVersion();
 		Result.ProviderMinorVersion = MetaData->getProviderMinorVersion();
 		Result.ProviderPatchVersion = MetaData->getProviderPatchVersion();
 
-		const std::vector<std::string>& PropertyNames = MetaData->getCMSXPropertyNames();
-		for (const std::string& PropertyName : PropertyNames)
+		std::shared_ptr<std::vector<std::string>> PropertyNames = MetaData->getCMSXPropertyNames();
+		for (const std::string& PropertyName : *PropertyNames)
 		{
 			Result.CMSXPropertyNames.Add(FString(PropertyName.c_str()));
 		}	
@@ -175,7 +175,7 @@ FString UActiveMQConnection::GetClientID() const
 
 	try
 	{
-		return FString(InnerConnection->getClientID().c_str());
+		return FString(InnerConnection->getClientID()->c_str());
 	}
 	ACTIVEMQ_EXCEPTION_DELIVER_END(GetClientID(), EActiveMQExceptionOwnerType::EOT_Connection)
 

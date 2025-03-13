@@ -60,8 +60,8 @@ namespace commands{
             // Nothing to do here
         }
 
-        virtual std::string toString() const {
-            return std::string( "No Data for Class BaseDataStructure\n" );
+        virtual std::shared_ptr<std::string> toString() const {
+            return std::make_shared<std::string>("No Data for Class BaseDataStructure\n");
         }
 
         virtual bool equals( const DataStructure* value AMQCPP_UNUSED ) const {

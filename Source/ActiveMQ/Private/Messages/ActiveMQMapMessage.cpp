@@ -35,8 +35,8 @@ TArray<FString> UActiveMQMapMessage::GetMapNames() const
 	{
 		try
 		{
-			std::vector<std::string> Names = StaticCastSharedPtr<cms::MapMessage>(InnerMessage)->getMapNames();
-			for (const std::string& Name : Names)
+			std::shared_ptr<std::vector<std::string>> Names = StaticCastSharedPtr<cms::MapMessage>(InnerMessage)->getMapNames();
+			for (const std::string& Name : *Names)
 			{
 				Result.Add(UTF8_TO_TCHAR(Name.c_str()));
 			}
@@ -134,9 +134,9 @@ TArray<uint8> UActiveMQMapMessage::GetBytes(const FString& Name) const
 	{
 		try
 		{
-			std::vector<uint8> Bytes = StaticCastSharedPtr<cms::MapMessage>(InnerMessage)->getBytes(TCHAR_TO_UTF8(*Name));
-			Result.SetNumUninitialized(Bytes.size());
-			FMemory::Memcpy(Result.GetData(), Bytes.data(), Bytes.size());
+			std::shared_ptr<std::vector<uint8>> Bytes = StaticCastSharedPtr<cms::MapMessage>(InnerMessage)->getBytes(TCHAR_TO_UTF8(*Name));
+			Result.SetNumUninitialized(Bytes->size());
+			FMemory::Memcpy(Result.GetData(), Bytes->data(), Bytes->size());
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(GetCMSMessageID(), EActiveMQExceptionOwnerType::EOT_Message)
 	}
@@ -319,8 +319,8 @@ FString UActiveMQMapMessage::GetString(const FString& Name) const
 	{
 		try
 		{
-			std::string Value = StaticCastSharedPtr<cms::MapMessage>(InnerMessage)->getString(TCHAR_TO_UTF8(*Name));
-			return UTF8_TO_TCHAR(Value.c_str());
+			std::shared_ptr<std::string> Value = StaticCastSharedPtr<cms::MapMessage>(InnerMessage)->getString(TCHAR_TO_UTF8(*Name));
+			return UTF8_TO_TCHAR(Value->c_str());
 		}
 		ACTIVEMQ_EXCEPTION_DELIVER_END(GetCMSMessageID(), EActiveMQExceptionOwnerType::EOT_Message)
 	}

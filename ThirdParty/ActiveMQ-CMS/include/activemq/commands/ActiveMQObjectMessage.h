@@ -49,7 +49,7 @@ namespace commands {
 
         virtual void copyDataStructure(const DataStructure* src);
 
-        virtual std::string toString() const;
+        virtual std::shared_ptr<std::string> toString() const;
 
         virtual bool equals(const DataStructure* value) const;
 
@@ -61,7 +61,7 @@ namespace commands {
 
         virtual void setObjectBytes(const std::vector<unsigned char>& bytes);
 
-        virtual std::vector<unsigned char> getObjectBytes() const;
+        virtual std::shared_ptr<std::vector<unsigned char>> getObjectBytes() const;
 
     };
 

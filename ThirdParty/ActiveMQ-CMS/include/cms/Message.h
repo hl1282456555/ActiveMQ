@@ -191,7 +191,7 @@ namespace cms {
          *
          * @throws CMSException - if an internal error occurs.
          */
-        virtual std::vector<std::string> getPropertyNames() const = 0;
+        virtual std::shared_ptr<std::vector<std::string>> getPropertyNames() const = 0;
 
         /**
          * Indicates whether or not a given property exists.
@@ -313,7 +313,7 @@ namespace cms {
          * @throws CMSException if the property does not exist.
          * @throws MessageFormatException - if this type conversion is invalid.
          */
-        virtual std::string getStringProperty(const std::string& name) const = 0;
+        virtual std::shared_ptr<std::string> getStringProperty(const std::string& name) const = 0;
 
         /**
          * Sets a boolean property.
@@ -428,7 +428,7 @@ namespace cms {
          *
          * @throws CMSException - if an internal error occurs.
          */
-        virtual std::string getCMSCorrelationID() const = 0;
+        virtual std::shared_ptr<std::string> getCMSCorrelationID() const = 0;
 
         /**
          * Sets the correlation ID for the message.
@@ -593,7 +593,7 @@ namespace cms {
          *
          * @throws CMSException - if an internal error occurs.
          */
-        virtual std::string getCMSMessageID() const = 0;
+        virtual std::shared_ptr<std::string> getCMSMessageID() const = 0;
 
         /**
          * Sets the message ID.
@@ -755,7 +755,7 @@ namespace cms {
          *
          * @throws CMSException - if an internal error occurs.
          */
-        virtual std::string getCMSType() const = 0;
+        virtual std::shared_ptr<std::string> getCMSType() const = 0;
 
         /**
          * Sets the message type.

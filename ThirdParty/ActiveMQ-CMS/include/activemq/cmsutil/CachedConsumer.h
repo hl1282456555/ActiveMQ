@@ -79,7 +79,7 @@ namespace cmsutil {
             return consumer->getMessageListener();
         }
 
-        virtual std::string getMessageSelector() const {
+        virtual std::shared_ptr<std::string> getMessageSelector() const {
             return consumer->getMessageSelector();
         }
 

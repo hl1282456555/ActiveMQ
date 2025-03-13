@@ -76,7 +76,7 @@ namespace commands {
 
         virtual void copyDataStructure(const DataStructure* src);
 
-        virtual std::string toString() const;
+        virtual std::shared_ptr<std::string> toString() const;
 
         virtual bool equals(const DataStructure* value) const;
 
@@ -142,11 +142,11 @@ namespace commands {
 
         virtual void writeLong(long long value);
 
-        virtual std::string readString() const;
+        virtual std::shared_ptr<std::string> readString() const;
 
         virtual void writeString(const std::string& value);
 
-        virtual std::string readUTF() const;
+        virtual std::shared_ptr<std::string> readUTF() const;
 
         virtual void writeUTF(const std::string& value);
 

@@ -63,7 +63,7 @@ namespace commands{
          * Returns a provider-specific string that provides information
          * about the contents of the command.
          */
-        virtual std::string toString() const = 0;
+        virtual std::shared_ptr<std::string> toString() const = 0;
 
         /**
          * Allows a Visitor to visit this command and return a response to the

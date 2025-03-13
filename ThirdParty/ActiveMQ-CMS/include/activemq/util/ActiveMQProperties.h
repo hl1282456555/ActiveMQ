@@ -69,8 +69,8 @@ namespace util {
             return properties.getProperty(name);
         }
 
-        virtual std::string getProperty(const std::string& name, const std::string& defaultValue) const {
-            return properties.getProperty(name, defaultValue);
+        virtual std::shared_ptr<std::string> getProperty(const std::string& name, const std::string& defaultValue) const {
+            return std::make_shared<std::string>(std::move(properties.getProperty(name, defaultValue)));
         }
 
         virtual void setProperty(const std::string& name, const std::string& value) {
@@ -81,16 +81,16 @@ namespace util {
             return properties.hasProperty(name);
         }
 
-        virtual std::string remove(const std::string& name) {
-            return properties.remove(name);
+        virtual std::shared_ptr<std::string> remove(const std::string& name) {
+            return std::make_shared<std::string>(std::move(properties.remove(name)));
         }
 
-        virtual std::vector<std::string> propertyNames() const {
-            return properties.propertyNames();
+        virtual std::shared_ptr<std::vector<std::string>> propertyNames() const {
+            return std::make_shared<std::vector<std::string>>(std::move(properties.propertyNames()));
         }
 
-        virtual std::vector<std::pair<std::string, std::string> > toArray() const {
-            return properties.toArray();
+        virtual std::shared_ptr<std::vector<std::pair<std::string, std::string> >> toArray() const {
+            return std::make_shared<std::vector<std::pair<std::string, std::string> >>(std::move(properties.toArray()));
         }
 
         virtual void copy(const CMSProperties* source);
@@ -101,8 +101,8 @@ namespace util {
             properties.clear();
         }
 
-        virtual std::string toString() const {
-            return properties.toString();
+        virtual std::shared_ptr<std::string> toString() const {
+            return std::make_shared<std::string>(std::move(properties.toString()));
         }
 
     };

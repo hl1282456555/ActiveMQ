@@ -54,13 +54,13 @@ namespace core {
 
         virtual cms::DestinationListener* getListener() const;
 
-        virtual std::vector<cms::Queue*> getQueues() const;
+        virtual std::shared_ptr<std::vector<cms::Queue*>> getQueues() const;
 
-        virtual std::vector<cms::Topic*> getTopics() const;
+        virtual std::shared_ptr<std::vector<cms::Topic*>> getTopics() const;
 
-        virtual std::vector<cms::TemporaryQueue*> getTemporaryQueues() const;
+        virtual std::shared_ptr<std::vector<cms::TemporaryQueue*>> getTemporaryQueues() const;
 
-        virtual std::vector<cms::TemporaryTopic*> getTemporaryTopics() const;
+        virtual std::shared_ptr<std::vector<cms::TemporaryTopic*>> getTemporaryTopics() const;
 
     };
 

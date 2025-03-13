@@ -104,9 +104,9 @@ namespace commands {
             AMQ_CATCH_ALL_THROW_CMSEXCEPTION()
         }
 
-        virtual std::vector<std::string> getPropertyNames() const {
+        virtual std::shared_ptr<std::vector<std::string>> getPropertyNames() const {
             try {
-                return getMessageProperties().keySet().toArray();
+                return std::make_shared<std::vector<std::string>>(std::move(getMessageProperties().keySet().toArray()));
             }
             AMQ_CATCH_ALL_THROW_CMSEXCEPTION()
         }
@@ -225,10 +225,10 @@ namespace commands {
             AMQ_CATCH_ALL_THROW_CMSEXCEPTION()
         }
 
-        virtual std::string getStringProperty(const std::string& name) const {
+        virtual std::shared_ptr<std::string> getStringProperty(const std::string& name) const {
 
             try {
-                return this->propertiesInterceptor->getStringProperty(name);
+                return std::make_shared<std::string>(std::move(this->propertiesInterceptor->getStringProperty(name)));
             } catch (decaf::lang::exceptions::UnsupportedOperationException& ex) {
                 throw activemq::util::CMSExceptionSupport::createMessageFormatException(ex);
             }
@@ -339,8 +339,8 @@ namespace commands {
             AMQ_CATCH_ALL_THROW_CMSEXCEPTION()
         }
 
-        virtual std::string getCMSCorrelationID() const {
-            return this->getCorrelationId();
+        virtual std::shared_ptr<std::string> getCMSCorrelationID() const {
+            return std::make_shared<std::string>(std::move(this->getCorrelationId()));
         }
 
         virtual void setCMSCorrelationID(const std::string& correlationId) {
@@ -380,9 +380,9 @@ namespace commands {
             this->setExpiration(expireTime);
         }
 
-        virtual std::string getCMSMessageID() const {
+        virtual std::shared_ptr<std::string> getCMSMessageID() const {
             try {
-                return wireformat::openwire::marshal::BaseDataStreamMarshaller::toString(this->getMessageId().get());
+                return std::make_shared<std::string>(std::move(wireformat::openwire::marshal::BaseDataStreamMarshaller::toString(this->getMessageId().get())));
             }
             AMQ_CATCH_ALL_THROW_CMSEXCEPTION()
         }
@@ -440,8 +440,8 @@ namespace commands {
             this->setTimestamp(timeStamp);
         }
 
-        virtual std::string getCMSType() const {
-            return this->getType();
+        virtual std::shared_ptr<std::string> getCMSType() const {
+            return std::make_shared<std::string>(this->getType());
         }
 
         virtual void setCMSType(const std::string& type) {

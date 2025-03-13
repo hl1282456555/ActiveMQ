@@ -54,7 +54,7 @@ namespace commands {
 
         virtual void copyDataStructure(const DataStructure* src);
 
-        virtual std::string toString() const;
+        virtual std::shared_ptr<std::string> toString() const;
 
         virtual bool equals(const DataStructure* value) const;
 
@@ -84,8 +84,8 @@ namespace commands {
 
     public:
 
-        virtual std::string getQueueName() const {
-            return this->getPhysicalName();
+        virtual std::shared_ptr<std::string> getQueueName() const {
+            return std::make_shared<std::string>(std::move(this->getPhysicalName()));
         }
 
         virtual void destroy();
